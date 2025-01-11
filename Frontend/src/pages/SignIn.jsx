@@ -7,7 +7,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,9 +19,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { postReq } from "@/api";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/store/features/userSlice";
 
 function SignIn() {
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const state = useSelector((state) => (state.user));
+console.log(state)
   const formSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8, "password must be atleast 8 character long"),
@@ -36,8 +43,19 @@ function SignIn() {
     },
   });
 
-  function onSubmit(values) {
-    console.log(values);
+  async function onSubmit(values) {
+
+    const res = await postReq('/auth/login', values)
+    console.log(res);
+
+    const data = await res?.data
+    
+    dispatch(setUser(data))
+
+    if(data){
+      navigate('/')
+    }
+    
   }
 
   return (

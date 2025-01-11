@@ -12,7 +12,10 @@ app.use(cookieParser());
 // app.use(cors({ 
 //     origin: process.env.FRONTEND_URI, 
 //     credentials: true }));
-app.use(cors())
+app.use(cors({
+  credentials: true,
+  origin: process.env.FRONTEND_URI,
+}))
 
 
 app.get("/", (req, res) => {

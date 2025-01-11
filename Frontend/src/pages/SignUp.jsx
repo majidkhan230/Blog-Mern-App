@@ -20,10 +20,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { postReq } from "@/api";
 
 function SignUp() {
+
+  const navigate =useNavigate()
+  
   const formSchema = z
   .object({
     username: z.string().min(3, "Name must be 3 characters long").max(50),
@@ -59,6 +62,9 @@ async  function onSubmit(values) {
     password
   })
   console.log(res)
+  if(res){
+    navigate('/sign-in')
+  }
   }
 
   return (
