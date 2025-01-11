@@ -7,3 +7,4 @@ app.listen(PORT,()=>{
     console.log(`server is sucessfully running on ${PORT}`)
     connectDB()
 })
+

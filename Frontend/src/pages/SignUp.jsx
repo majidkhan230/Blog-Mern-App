@@ -21,6 +21,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import { postReq } from "@/api";
 
 function SignUp() {
   const formSchema = z
@@ -49,8 +50,15 @@ function SignUp() {
     },
   });
 
-  function onSubmit(values) {
-    console.log(values);
+async  function onSubmit(values) {
+    const {username, email, password, confirmPassword} = values
+
+  const res =  await  postReq('/auth/register', {
+    name: username,
+    email,
+    password
+  })
+  console.log(res)
   }
 
   return (
