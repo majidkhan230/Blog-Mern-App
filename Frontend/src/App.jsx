@@ -11,11 +11,20 @@ function App() {
       <Route path='/' element={<Layout/>}>
     </Route>
     </Routes> */}
-      <Routes>
-        {routes.map(({ element, path }, index) => {
-         return <Route key={index} path={path} element={element}></Route>;
-        })}
-      </Routes>
+     <Routes>
+  {routes.map(({ element, path, children }, index) => (
+    <Route key={index} path={path} element={element}>
+      {children &&
+        children.map((child, childIndex) => (
+          <Route
+            key={childIndex}
+            path={child.path}
+            element={child.element}
+          />
+        ))}
+    </Route>
+  ))}
+</Routes>;
     </>
   );
 }

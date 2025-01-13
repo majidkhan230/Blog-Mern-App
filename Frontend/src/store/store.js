@@ -1,8 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer from '@/store/features/userSlice.js'
-import { persistStore, persistReducer } from 'reduxjs-toolkit-persist'
-import storage from 'reduxjs-toolkit-persist/lib/storage' // defaults to localStorage for web
-
+import sessionStorage from 'redux-persist/es/storage/session';
+import { persistReducer, persistStore } from 'redux-persist';
 
 const rootReducer  = combineReducers({
     user: userReducer
@@ -10,7 +9,7 @@ const rootReducer  = combineReducers({
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage:sessionStorage,
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -18,7 +17,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
     reducer : persistedReducer,
     middleware: (getDefaultMiddleware) =>{
-        getDefaultMiddleware({serializableCheck:false})
+        return   getDefaultMiddleware({serializableCheck:false   })
     }
 
 })
