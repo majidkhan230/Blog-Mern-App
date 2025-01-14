@@ -12,7 +12,8 @@ function Layout() {
       <Topbar />
       {/* <SidebarTrigger /> */}
       <main className=" w-full">
-        <div className="w-full h-[calc(100vh-40px)]"><Outlet/></div>
+        <div className="w-full min-h-[calc(100vh-40px)] py-20 px-10"><Outlet/>
+        </div>
         <Footer />
       </main>
     </SidebarProvider>

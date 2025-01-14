@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 const app = express();
 dotenv.config();
@@ -26,7 +27,7 @@ app.get("/", (req, res) => {
 
 
 app.use("/api/auth/",authRoutes)
-
+app.use("/api/user/",userRoutes)
 
 app.use((err,req,res,next)=>{
   const statusCode = err.statusCode || 500
