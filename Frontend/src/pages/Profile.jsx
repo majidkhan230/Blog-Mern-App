@@ -30,33 +30,29 @@ import Dropzone from "react-dropzone";
 import { useEffect, useState } from "react";
 import { useFetch } from "@/hooks/useFetch";
 import Loading from "@/components/Loading";
-
+import { UserRoundSearchIcon } from "lucide-react";
+import dummyImage from "/assets/images/user-icon.png";
 function Profile() {
   const user = useSelector((state) => state.user);
-  console.log(user);
+  // console.log(user);
 
   const [file, setFile] = useState();
   const [filePreview, setPreview] = useState();
-  const {
-    data,
-    loading,
-    error,
-  } = useFetch(`/user/get-user/${user.user.user.id}`);
+  const { data, loading, error } = useFetch(`/user/get-user/${user.user._id}`);
   console.log("fetched  data", data, loading, error);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (data && data.success) {
-        form.reset({
-            name: data.user.name,
-            email: data.user.email,
-            bio: data.user.bio
-        })
+      form.reset({
+        name: data.user.name,
+        email: data.user.email,
+        bio: data.user.bio,
+      });
     }
-  },[data])
-  
+  }, [data]);
 
   //   const navigate = useNavigate()
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const formSchema = z.object({
     name: z.string(),
@@ -77,18 +73,39 @@ function Profile() {
 
   async function onSubmit(values) {
     console.log(values);
+
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("email", values.email);
+    formData.append("bio", values.bio);
+    // console.log(formData.values(),file)
+    if (file) formData.append("avatar", file);
+    const res = await postReq(`/user/update-user/${user?.user?.id}`, formData);
+    const data = await res?.data?.user;
+
+    dispatch(setUser(data));
+    // if (res && res.success) {
+    //   // dispatch(setUser(res.data));
+    //   navigate("/profile");
+    // } else {
+    //   console.log("error", res);
+    // }
+    // navigate('/profile')
   }
 
   const handleInputFiles = (files) => {
-    // console.log(files)
     const file = files[0];
     const preview = URL.createObjectURL(file);
-    // console.log(preview)
     setFile(file);
     setPreview(preview);
   };
 
-  if (loading) return <div className="w-full min-h-full flex justify-center items-center"><Loading/></div>
+  if (loading)
+    return (
+      <div className="w-full min-h-full flex justify-center items-center">
+        <Loading />
+      </div>
+    );
   return (
     <div className="max-w-full  flex justify-center items-center ">
       <Card className="w-full">
@@ -103,7 +120,9 @@ function Profile() {
                       src={
                         filePreview
                           ? filePreview
-                          : "https://github.com/shadcn.png"
+                          : user.user.avatar
+                          ? user.user.avatar
+                          : dummyImage
                       }
                     />
                     {/* <FaCamera className="z-50 absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2" /> */}
@@ -181,7 +200,7 @@ function Profile() {
                       <FormControl>
                         <Input
                           type="password"
-                          placeholder="Enter your password"
+                          placeholder="Enter your new  password"
                           {...field}
                         />
                       </FormControl>

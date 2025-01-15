@@ -24,7 +24,8 @@ import { removeUser } from "@/store/features/userSlice";
 
 function Topbar() {
   const user = useSelector((state) => state.user);
-  // console.log(user.user.user.email);
+
+  // console.log(user.user.user.avatar);
   const dispatch  = useDispatch()
   const navigate = useNavigate()
 
@@ -46,7 +47,7 @@ function Topbar() {
   
 
   return (
-    <div className="w-full h-16 border-b bg-white fixed z-20 flex justify-between items-center px-5">
+    <div className="w-full h-16 border-b bg-white fixed z-20 flex justify-between items-center px-10 ">
       <div>
         <h1 className="text-xl font-semibold uppercase tracking-tighter font-serif">
           <span className="text-3xl text-red-600">B</span>log
@@ -67,15 +68,15 @@ function Topbar() {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar className='border border-blue-700'>
-                <AvatarImage src={user.user.user.avatar || dummyAvatar} />
+                <AvatarImage src={user?.user?.avatar || dummyAvatar} />
                 <AvatarFallback>
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>
-                <h1>{user.user.user.name}</h1>
-                <h1 className="text-xs">{user.user.user.email}</h1>
+                <h1>{user.name}</h1>
+                <h1 className="text-xs">{user?.email}</h1>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>

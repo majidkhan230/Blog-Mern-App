@@ -9,13 +9,20 @@ const apiClient = axios.create({
     timeout: 5000,
     headers: {
         "Content-Type": "application/json",
+        
     }, 
     
 })
 
 
-apiClient.interceptors.response.use((res)=>{
-    return res;
+apiClient.interceptors.response.use((config)=>{
+
+    if (config.data instanceof FormData) {
+        config.headers['Content-Type'] = 'multipart/form-data';
+    } else {
+        config.headers['Content-Type'] = 'application/json';
+    }
+    return config;
 },(error)=>{
     console.log(error.message)
     return Promise.reject(error);

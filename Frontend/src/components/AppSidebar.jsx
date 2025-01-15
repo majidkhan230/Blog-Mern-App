@@ -34,7 +34,7 @@ function AppSidebar() {
             </SidebarMenuButton>
             <SidebarMenuButton>
               <BiCategoryAlt/>
-              <Link to="/>/">Categories</Link>
+              <Link to="/category">Categories</Link>
             </SidebarMenuButton>
             <SidebarMenuButton>
               <GrBlog/>

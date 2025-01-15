@@ -48,8 +48,8 @@ console.log(state)
     const res = await postReq('/auth/login', values)
     console.log(res);
 
-    const data = await res?.data
-    
+    const data = await res?.data?.user
+    // console.log(data)
     dispatch(setUser(data))
 
     if(data){
