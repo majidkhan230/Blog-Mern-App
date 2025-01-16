@@ -15,13 +15,25 @@ import { useFetch } from '@/hooks/useFetch'
 import Loading from '@/components/Loading'
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { delReq } from '@/api'
 
 const CategoryDetails = () => {
     const [refreshData, setRefreshData] = useState(false)
     const { data: categoryData, loading, error } = useFetch(`/category/all-category`, [refreshData])
 
-    const handleDelete = (id) => {
-     console.log('delete data',id)
+console.log(categoryData,loading,error)
+
+
+    const handleDelete = async(id) => {
+        
+        const deleteRes = await delReq(`category/delete/${id}`)
+        
+        if(deleteRes.data.success){
+            setRefreshData(!refreshData)
+        }else{
+            console.log(deleteRes.data.message)
+        }
+        
     }
 
     if (loading) return <Loading />
@@ -49,9 +61,9 @@ const CategoryDetails = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {categoryData && categoryData.category.length > 0 ?
+                            {categoryData && categoryData?.categories?.length > 0 ?
 
-                                categoryData.category.map(category =>
+                                categoryData.categories.map(category =>
                                     <TableRow key={category._id}>
                                         <TableCell>{category.name}</TableCell>
                                         <TableCell>{category.slug}</TableCell>

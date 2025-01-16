@@ -1,7 +1,7 @@
 import { getReq } from "@/api";
 import { useEffect, useState } from "react";
 
-export const useFetch = (url, options = {}, dependencies = []) => {
+export const useFetch = (url, dependencies = []) => {
     // console.log(url)
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
