@@ -16,6 +16,8 @@ import Loading from '@/components/Loading'
 import { FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { delReq } from '@/api'
+import AlertDiaglog from '@/components/AlertDiaglog'
+
 
 const CategoryDetails = () => {
     const [refreshData, setRefreshData] = useState(false)
@@ -69,13 +71,14 @@ console.log(categoryData,loading,error)
                                         <TableCell>{category.slug}</TableCell>
                                         <TableCell className="flex gap-3">
                                             <Button variant="outline" className="hover:bg-violet-500 hover:text-white" asChild>
-                                                <Link to={`category/edit/${category._id}`}>
+                                                <Link to={`/category/edit/${category._id}`}>
                                                     <FiEdit />
                                                 </Link>
                                             </Button>
-                                            <Button onClick={() => handleDelete(category._id)} variant="outline" className="hover:bg-violet-500 hover:text-white" >
+                                            <AlertDiaglog onClick={() => handleDelete(category._id)}  />
+                                            {/* <Button onClick={() => handleDelete(category._id)} variant="outline" className="hover:bg-violet-500 hover:text-white" >
                                                 <FaRegTrashAlt />
-                                            </Button>
+                                            </Button> */}
                                         </TableCell>
                                     </TableRow>
 
