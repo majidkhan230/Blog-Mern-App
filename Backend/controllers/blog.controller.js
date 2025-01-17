@@ -3,10 +3,11 @@ import blogModel from "../models/blog.model.js";
 
 const addBlog = async (req, res, next) => {
   try {
-    const { category,title,slug,blogContent } = req.body;
-    const file = req.files[0]
+    const { category,title,slug,blogContent,author } = req.body;
+    const file = req.file
     console.log(file)
     const Blog = await blogModel.create({
+      author,
       category,
       title,
       slug,
@@ -14,8 +15,8 @@ const addBlog = async (req, res, next) => {
     });
 
     if (file) {
-      blogModel.featuredImage.data = file
-      await blogModel.save();
+      Blog.featuredImage = file.path
+      await Blog.save();
     }
 
     res.status(201).send({
