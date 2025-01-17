@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
+import blogRoutes from "./routes/blog.routes.js";
 
 const app = express();
 dotenv.config();
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth/",authRoutes)
 app.use("/api/user/",userRoutes)
 app.use('/api/category',categoryRoutes)
+app.use('/api/blog',blogRoutes)
 app.use((err,req,res,next)=>{
   const statusCode = err.statusCode || 500
   const message = err.message || 'Internal Server Error'

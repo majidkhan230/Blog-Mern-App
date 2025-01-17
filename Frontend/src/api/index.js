@@ -12,13 +12,13 @@ export const getReq = async(url) =>{
 
     }
 }
-export const postReq =async (url,data) =>{
+export const postReq =async (url,data,options={}) =>{
     try {
-        const req = await apiClient.post(url,data)
+        const req = await apiClient.post(url,data, options)
         showToast("sucess",req.data.message)
         return req
     } catch (error) {
-        console.log(error.response.data.message)
+        console.log(error.response?.data?.message)
         showToast('error', error.response.data.message ||error.message)
 
     }
@@ -26,6 +26,7 @@ export const postReq =async (url,data) =>{
 export const updReq = async(url,data) =>{
     try {
         const req = await apiClient.put(url,data)
+        showToast("sucess",req.data.message)
         return req
     } catch (error) {
         console.log(error.message)

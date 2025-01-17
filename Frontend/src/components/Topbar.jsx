@@ -21,6 +21,7 @@ import { GrAdd } from "react-icons/gr";
 import { getReq } from "@/api";
 import { showToast } from "@/helpers/showToast";
 import { removeUser } from "@/store/features/userSlice";
+import { SidebarTrigger } from "./ui/sidebar";
 
 function Topbar() {
   const user = useSelector((state) => state.user);
@@ -48,11 +49,10 @@ function Topbar() {
 
   return (
     <div className="w-full h-16 border-b bg-white fixed z-20 flex justify-between items-center px-10 ">
-      <div>
+      <SidebarTrigger className=" md:hidden  mr-5  absolute top-5 left-2" />
         <h1 className="text-xl font-semibold uppercase tracking-tighter font-serif">
           <span className="text-3xl text-red-600">B</span>log
         </h1>
-      </div>
       <div>
         <SearchBox />
       </div>

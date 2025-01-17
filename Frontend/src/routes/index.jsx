@@ -1,4 +1,7 @@
 import Layout from "@/layout/Layout.jsx";
+import AddBlog from "@/pages/Blog/AddBlog";
+import BlogDetails from "@/pages/Blog/BlogDetails";
+import EditBlog from "@/pages/Blog/EditBlog";
 import AddCategory from "@/pages/Category/AddCategory";
 import CategoryDetails from "@/pages/Category/CategoryDetails";
 import EditCategory from "@/pages/Category/EditCategory";
@@ -26,6 +29,18 @@ export const routes = [
       {
         path: "category/add", 
         element: <AddCategory />,
+      },
+      {
+        path: "blog",
+        element: <BlogDetails />,
+      },
+      {
+        path: "blog/edit/:id",
+        element: <EditBlog />,
+      },
+      {
+        path: "blog/add", 
+        element: <AddBlog/>,
       },
     ],
   },

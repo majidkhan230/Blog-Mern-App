@@ -7,7 +7,7 @@ const getUsers = async (req, res, next) => {
   // console.log(userId)
   try {
     const user = await userModel.findOne({ _id: userId });
-    console.log(user);
+    // console.log(user);
     res.status(200).send({
       success: true,
       user: user,

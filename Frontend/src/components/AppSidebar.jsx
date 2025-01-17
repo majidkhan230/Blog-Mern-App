@@ -28,33 +28,45 @@ function AppSidebar() {
       <SidebarContent  className='bg-white'>
         <SidebarGroup>
             {/* <SidebarGroupLabel>Hello</SidebarGroupLabel> */}
+            <Link to="/">
             <SidebarMenuButton>
               <IoHomeOutline />
-              <Link to="/">Home</Link>
+              Home
             </SidebarMenuButton>
+              </Link>
+              <Link to="/category">
             <SidebarMenuButton>
               <BiCategoryAlt/>
-              <Link to="/category">Categories</Link>
+             Categories
             </SidebarMenuButton>
+             </Link>
+              <Link to="/blog/">
             <SidebarMenuButton>
               <GrBlog/>
-              <Link to="/>/">Blogs</Link>
+              Blogs
             </SidebarMenuButton>
+              </Link>
+              <Link to="/asd/">
             <SidebarMenuButton>
               <FaRegComments/>
-              <Link to="/>/">Comments</Link>
+              Comments
             </SidebarMenuButton>
+              </Link>
+              <Link to="/>/">
             <SidebarMenuButton>
               <LuUsers/>
-              <Link to="/>/">Users</Link>
+              Users
             </SidebarMenuButton>
+              </Link>
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>Categories</SidebarGroupLabel>
+            <Link to="about">
           <SidebarMenuButton>
             <GoDot />
-            <Link to="about">Categories Item</Link>
+            Categories Item
           </SidebarMenuButton>
+            </Link>
           <SidebarMenuButton>
             <GoDot />
             <Link to="contact">Contact Us</Link>

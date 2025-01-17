@@ -80,7 +80,11 @@ function Profile() {
     formData.append("bio", values.bio);
     // console.log(formData.values(),file)
     if (file) formData.append("avatar", file);
-    const res = await postReq(`/user/update-user/${user?.user?.id}`, formData);
+    const res = await postReq(`/user/update-user/${user?.user?.id}`, formData,{
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     const data = await res?.data?.user;
 
     dispatch(setUser(data));
