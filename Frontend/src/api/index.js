@@ -23,9 +23,9 @@ export const postReq =async (url,data,options={}) =>{
 
     }
 }
-export const updReq = async(url,data) =>{
+export const updReq = async(url,data,options={}) =>{
     try {
-        const req = await apiClient.put(url,data)
+        const req = await apiClient.put(url,data,options)
         showToast("sucess",req.data.message)
         return req
     } catch (error) {

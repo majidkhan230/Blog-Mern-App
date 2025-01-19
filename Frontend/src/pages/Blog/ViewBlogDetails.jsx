@@ -7,6 +7,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import usericon from "/assets/images/user-icon.png";
 import Comment from "@/components/Comment";
+import RelatedBlog from "@/components/RelatedBlog";
 
 const ViewBlogDetails = () => {
   const { slug, category } = useParams();
@@ -56,7 +57,7 @@ const ViewBlogDetails = () => {
         </>
       )}
       <div className="border rounded md:w-[30%] w-full p-5">
-        {/* <RelatedBlog props={{ category: category, currentBlog: blog }} /> */}
+        <RelatedBlog props={{ category: category, currentBlog: slug }} />
       </div>
     </div>
   );

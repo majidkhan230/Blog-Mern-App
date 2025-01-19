@@ -32,6 +32,7 @@ import Loading from "@/components/Loading";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import slugify from "slugify";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   category: z
@@ -203,7 +204,7 @@ function AddBlog() {
               >
                 {({ getRootProps, getInputProps }) => (
                   <div {...getRootProps()}>
-                    <span className="mb-2 block">Featured Image</span>
+                    <span className="mb-2 text-md block">Featured Image</span>
                     <input {...getInputProps()} />
                     <div className="flex justify-center items-center w-36 h-28 border-2 border-dashed rounded">
                       {/* <img src={filePreview ? filePreview : dummyImage} */}
@@ -228,7 +229,7 @@ function AddBlog() {
                   <FormItem>
                     <FormLabel>Blog Content</FormLabel>
                     <FormControl>
-                      <Input
+                      <Textarea
                         placeholder="please enter blog content"
                         {...field}
                       />

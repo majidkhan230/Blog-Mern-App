@@ -1,11 +1,11 @@
 import errorHandler from "../helpers/error.handler.js";
 import blogModel from "../models/blog.model.js";
+import Category from "../models/category.model.js";
 
 const addBlog = async (req, res, next) => {
   try {
     const { category,title,slug,blogContent,author } = req.body;
     const file = req.file
-    console.log(file)
     const Blog = await blogModel.create({
       author,
       category,
@@ -46,38 +46,45 @@ const showBlog = async (req, res, next) => {
 };
 
 // update Blog
-const updateBlog = async (req, res, next) => {
+export const updateBlog = async (req, res, next) => {
+const {category,title,slug,blogContent} = req.body
+// console.log(category,title,slug,blogContent)
   try {
-    const { name, slug } = req.body;
-    const { BlogId } = req.params;
+      const { blogId } = req.params
+// console.log('hitted')
+const Blog = await blogModel.findByIdAndUpdate(blogId,{
+  category,
+  title,
+  slug,
+  blogContent,
+});
 
-    const Blog = await blogModel.findByIdAndUpdate(
-      BlogId,
-      {
-        name,
-        slug,
-      },
-      { new: true }
-    );
 
-    if (!Blog) return next(errorHandler(404, "Blog not found"));
 
-    res.status(200).send({
-      success: true,
-      message: "Blog updated successfully",
-      Blog,
-    });
+
+if(req.file){
+  Blog.featuredImage = req.file.path
+}
+
+await Blog.save()
+
+
+      res.status(200).send({
+          success: true,
+          message: 'Blog updated successfully.'
+      })
+
   } catch (error) {
-    next(errorHandler(500, error.message));
+      next(errorHandler(500, error.message))
   }
-};
+}
 
 //delete Blog
 
 const deleteBlog = async (req, res, next) => {
   try {
     const { blogId } = req.params;
-    console.log(blogId)
+    // console.log(blogId)
     const resp = await blogModel.findByIdAndDelete(blogId);
 
     // if (!resp) return next(errorHandler(404, "Blog not found"));
@@ -107,10 +114,49 @@ const getAllBlog = async (req, res, next) => {
 
 const getBlog = async(req,res,next) =>{
   try {
-    const {slug}  = req.params
-console.log(slug)
-    const blog = await blogModel.findOne({slug}).populate('author', 'name avatar role').populate('category', 'name slug')
+    const {slug,blogId}  = req.params
+    // console.log(slug,blogId)
+const query  = blogId ? {_id:blogId} : {slug}
+console.log(query)
+    const blog = await blogModel.findOne(query).populate('author', 'name avatar role').populate('category', 'name slug')
+// console.log(blog)
+    res.status(200).send({
+      success: true,
+      blog,
+    })
+    
+  } catch (error) {
+    next(errorHandler(500, error.message));
+  }
+}
 
+export const getRelatedBlog = async (req, res, next) => {
+  try {
+      const { category, slug } = req.params
+      
+      const categoryData = await Category.findOne({ slug: category })
+      
+      console.log(categoryData,"hitted")
+      if (!categoryData) {
+          return next(errorHandler(404, 'Category data not found.'))
+      }
+      const categoryId = categoryData._id
+      const relatedBlog = await blogModel.find({ category: categoryId, slug: { $ne: slug } })
+      res.status(200).send({
+          success:true,
+          relatedBlog
+      })
+  } catch (error) {
+      next(errorHandler(500, error.message))
+  }
+}
+
+
+
+const editBLog = async(req,res,next) =>{
+  try {
+    const {blogId}  = req.params
+    const blog = await blogModel.findOne({_id:blogId}).populate('author', 'name avatar role').populate('category', 'name slug')
     res.status(200).send({
       success: true,
       blog,
@@ -122,14 +168,15 @@ console.log(slug)
 }
 
 
-
 const blogController = {
   addBlog,
   updateBlog,
   showBlog,
   deleteBlog,
   getAllBlog,
-  getBlog,  
+  getBlog,
+  editBLog,
+  getRelatedBlog
 };
 
 export default blogController;

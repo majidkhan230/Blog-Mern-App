@@ -18,11 +18,14 @@ import { Textarea } from "./ui/textarea";
 import { postReq } from "@/api";
 import { useSelector } from "react-redux";
 import CommentList from "./CommentList";
+import { Link } from "react-router-dom";
 
-function Comment({props}) {
-  const [newComment,setNewComment] = useState()
-  
-  const user = useSelector((user)=>user.user.user)
+function Comment({ props }) {
+  const [newComment, setNewComment] = useState();
+  const [refreshData, serRefreshData] = useState(false);
+
+  const user = useSelector((user) => user.user);
+  console.log(user)
   const formSchema = z.object({
     comment: z.string().min(2).max(50),
   });
@@ -38,23 +41,20 @@ function Comment({props}) {
     console.log(values);
 
     try {
-      const  res= await postReq("/comment/add", {
+      const res = await postReq("/comment/add", {
         comment: values.comment,
-        user: user._id,
-        blogid:props.blogid
-      })
+        user: user?.user._id,
+        blogid: props.blogid,
+      });
 
-      console.log(res)
-      setNewComment(res?.data?.comment)
+      console.log(res);
+      serRefreshData(!refreshData);
+      setNewComment(res?.data?.comment);
 
-
-      form.reset()
+      form.reset();
     } catch (error) {
       console.log(error.message);
     }
-
-
-
   }
 
   return (
@@ -62,8 +62,10 @@ function Comment({props}) {
       {/* comment header */}
       <div className="flex items-center">
         <FaComment className="w-8 h-8 text-violet-500" />
-        <p className="text-2xl my-2 ml-2 ">Comment</p>
+        <h1 className="text-2xl my-2 ml-2  font-bold">Comment</h1>
       </div>
+{user && user.isLoggedIn ?
+<>
       {/* add comments */}
       <div className="addComment">
         <Form {...form}>
@@ -88,10 +90,19 @@ function Comment({props}) {
           </form>
         </Form>
       </div>
-      {/* comment list */}
-      <div>
+     
+</>
+:
+<Button asChild>
+<Link to={'/sign-in'}>Sign In to add comments </Link>
+</Button>
+}
+ {/* comment list */}
+ <div>
         <div className="comments ">
-        <CommentList props={{blogId:props.blogid,newComment}}/>
+          <CommentList
+            props={{ blogId: props.blogid, newComment, refreshData }}
+          />
         </div>
       </div>
     </div>
