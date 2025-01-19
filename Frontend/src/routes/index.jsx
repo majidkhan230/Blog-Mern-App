@@ -1,5 +1,6 @@
 import Layout from "@/layout/Layout.jsx";
 import AddBlog from "@/pages/Blog/AddBlog";
+import BlogByCategory from "@/pages/Blog/BlogByCategory";
 import BlogDetails from "@/pages/Blog/BlogDetails";
 import EditBlog from "@/pages/Blog/EditBlog";
 import ViewBlogDetails from "@/pages/Blog/ViewBlogDetails";
@@ -51,6 +52,10 @@ export const routes = [
       {
         path: "/blog/:category/:slug",
         element: <ViewBlogDetails/>,
+      },
+      {
+        path: "/blog/:category",
+        element: <BlogByCategory/>,
       }
     ],
   },

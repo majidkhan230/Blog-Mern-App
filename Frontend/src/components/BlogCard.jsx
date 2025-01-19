@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 const BlogCard = ({ props }) => {
     console.log(props)
     return (
-        <Link to={`blog/${props.category.slug}/${props.slug}`} >
+        <Link to={`/blog/${props.category.slug}/${props.slug}`} >
             <Card className="pt-5">
                 <CardContent>
                     <div className='flex items-center justify-between'>

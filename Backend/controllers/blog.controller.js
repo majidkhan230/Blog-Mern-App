@@ -130,7 +130,7 @@ console.log(query)
   }
 }
 
-export const getRelatedBlog = async (req, res, next) => {
+ const getRelatedBlog = async (req, res, next) => {
   try {
       const { category, slug } = req.params
       
@@ -145,6 +145,22 @@ export const getRelatedBlog = async (req, res, next) => {
       res.status(200).send({
           success:true,
           relatedBlog
+      })
+  } catch (error) {
+      next(errorHandler(500, error.message))
+  }
+}
+
+const getRelatedBlogsByCategory = async (req, res, next) => {
+  try {
+    console.log("hitting hgitt")
+      const { category } = req.params
+    const categoryId = await Category.find({slug:category})
+      console.log(category)
+      const relatedBlogs = await blogModel.find({ category:categoryId}).populate('category','slug')
+      res.status(200).send({
+          success:true,
+          relatedBlogs
       })
   } catch (error) {
       next(errorHandler(500, error.message))
@@ -176,7 +192,8 @@ const blogController = {
   getAllBlog,
   getBlog,
   editBLog,
-  getRelatedBlog
+  getRelatedBlog,
+  getRelatedBlogsByCategory
 };
 
 export default blogController;

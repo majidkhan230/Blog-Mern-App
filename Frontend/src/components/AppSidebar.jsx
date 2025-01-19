@@ -74,7 +74,7 @@ console.log(categoryData)
             categoryData && categoryData?.categories.length > 0 && categoryData?.categories.map((category) => 
               <SidebarMenuButton>
             <GoDot />
-            <Link to={`category/${category.slug }`}>{category.name}</Link>
+            <Link to={`/blog/${category.slug}`}>{category.name}</Link>
             </SidebarMenuButton>
                         )          
          }

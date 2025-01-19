@@ -15,6 +15,7 @@ blogRoutes.get("/all-blogs",blogController.getAllBlog)
 blogRoutes.get("/get-blog/:slug",blogController.getBlog)
 blogRoutes.get("/edit-blog/:blogId",blogController.editBLog)
 blogRoutes.get("/get-related-blog/:category/:slug",blogController.getRelatedBlog)
+blogRoutes.get("/get-related-blogs/:category",blogController.getRelatedBlogsByCategory)
 
 
 
