@@ -2,27 +2,27 @@ import { getReq } from "@/api";
 import { useEffect, useState } from "react";
 
 export const useFetch = (url, dependencies = []) => {
-    // console.log(url)
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(false);
+      setLoading(true); 
       try {
         const res = await getReq(url);
-        console.log(res);
-        setData(res?.data);
+        setData(res?.data || null);
+        setError(null); 
       } catch (error) {
-        setError(error.message);
+        setError(error.message || "An error occurred");
+        setData(null); 
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, dependencies);
-//   console.log(data)
+  }, [url, ...dependencies]);
+
   return { data, loading, error };
 };

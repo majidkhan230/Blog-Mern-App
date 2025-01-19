@@ -15,8 +15,15 @@ import { GrBlog } from "react-icons/gr";
 import { FaRegComments } from "react-icons/fa6";
 import { LuUsers } from "react-icons/lu";
 import { GoDot } from "react-icons/go";
+import { useState } from "react";
+import { useFetch } from "@/hooks/useFetch";
+import Loading from "./Loading";
+import SkeletonLoader from "./SkeletonLoader";
 
 function AppSidebar() {
+  const { data: categoryData, loading, error } = useFetch(`/category/all-category`)
+console.log(categoryData)
+  
   return (
     <Sidebar>
       <SidebarHeader>
@@ -61,16 +68,17 @@ function AppSidebar() {
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>Categories</SidebarGroupLabel>
-            <Link to="about">
-          <SidebarMenuButton>
+         {
+          loading ? <SkeletonLoader/> 
+          :
+            categoryData && categoryData?.categories.length > 0 && categoryData?.categories.map((category) => 
+              <SidebarMenuButton>
             <GoDot />
-            Categories Item
-          </SidebarMenuButton>
-            </Link>
-          <SidebarMenuButton>
-            <GoDot />
-            <Link to="contact">Contact Us</Link>
-          </SidebarMenuButton>
+            <Link to={`category/${category.slug }`}>{category.name}</Link>
+            </SidebarMenuButton>
+                        )          
+         }
+         
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter />

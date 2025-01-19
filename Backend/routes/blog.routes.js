@@ -12,6 +12,7 @@ blogRoutes.put("/update/:blogId",blogController.updateBlog)
 blogRoutes.get("/show/:blogId",blogController.showBlog)
 blogRoutes.delete("/delete/:blogId",blogController.deleteBlog)
 blogRoutes.get("/all-blogs",blogController.getAllBlog)
+blogRoutes.get("/get-blog/:slug",blogController.getBlog)
 
 
 export default blogRoutes

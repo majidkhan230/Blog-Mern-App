@@ -18,7 +18,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,6 +30,8 @@ import { postReq } from "@/api";
 import { useFetch } from "@/hooks/useFetch";
 import Loading from "@/components/Loading";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import slugify from "slugify";
 
 const formSchema = z.object({
   category: z
@@ -43,12 +45,13 @@ const formSchema = z.object({
 });
 
 function AddBlog() {
-  const [file,setFile] = useState('')  
+  const [file, setFile] = useState("");
   const [filePreview, setPreview] = useState("");
 
-  const user = useSelector((state)=>state.user.user)
-  // console.log(user)
-  
+  const user = useSelector((state) => state.user.user);
+  // console.log(user._id)
+
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -60,16 +63,28 @@ function AddBlog() {
     },
   });
 
+  const blogTitle = form.watch("title");
+
+  useEffect(() => {
+    if (blogTitle) {
+      const slug = slugify(blogTitle, { lower: true });
+      form.setValue("slug", slug);
+    }
+  }, [blogTitle]);
+
   const handleFileSelection = (acceptedFiles) => {
     const file = acceptedFiles[0];
 
-    setFile(file)
+    setFile(file);
     setPreview(URL.createObjectURL(file));
   };
 
   // fetching categories
-  const { data: categoryData, loading , error } = useFetch('/category/all-category');
-
+  const {
+    data: categoryData,
+    loading,
+    error,
+  } = useFetch("/category/all-category");
 
   useEffect(() => {
     return () => {
@@ -77,34 +92,34 @@ function AddBlog() {
     };
   }, [filePreview]);
 
- async function onSubmit(values) {
+  async function onSubmit(values) {
     console.log(values);
     const formData = new FormData();
-    formData.append("author", user?.id);
+    formData.append("author", user?._id);
     formData.append("category", values.category);
     formData.append("title", values.title);
     formData.append("slug", values.slug);
 
     formData.append("blogContent", values.blogContent);
-    if (file) formData.append('featuredImage', file);
+    if (file) formData.append("featuredImage", file);
     for (const [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
 
-   const res =  await postReq('/blog/add',formData,{
+    const res = await postReq("/blog/add", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
-    })
+    });
 
-    if (res && res.success) {
-      console.log(res)
-      // navigate('/blog')
+    if (res && res.data.success === true) {
+      console.log(res);
+      navigate("/blog");
     } else {
-      console.log("error", res);
+      console.log("error", res.error.message);
     }
   }
-if(loading) return <Loading/>
+  if (loading) return <Loading />;
   return (
     <Card>
       <CardHeader>
@@ -120,19 +135,24 @@ if(loading) return <Loading/>
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
-                    <Select  onValueChange={field.onChange} defaultValue={field.value}>
-  <SelectTrigger className="w-[180px]">
-    <SelectValue placeholder="Select"  />
-  </SelectTrigger>
-  <SelectContent>
-     {categoryData && categoryData?.categories?.length > 0 &&
-      categoryData.categories.map(category => <SelectItem key={category._id} value={category._id}>{category.name}</SelectItem>)
-  }
-    
-  </SelectContent>
-</Select>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categoryData &&
+                          categoryData?.categories?.length > 0 &&
+                          categoryData.categories.map((category) => (
+                            <SelectItem key={category._id} value={category._id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
 
-                    
                     {/* <FormControl>
                       <Input placeholder="pleaser enter category" {...field} />
                     </FormControl>
@@ -175,11 +195,11 @@ if(loading) return <Loading/>
               <Dropzone
                 onDrop={(acceptedFiles) => handleFileSelection(acceptedFiles)}
                 accept={{
-                    "image/jpeg": [],
-                    "image/png": [],
-                    "image/jpg": [],
-                  }}
-                  maxSize={2 * 1024 * 1024} 
+                  "image/jpeg": [],
+                  "image/png": [],
+                  "image/jpg": [],
+                }}
+                maxSize={2 * 1024 * 1024}
               >
                 {({ getRootProps, getInputProps }) => (
                   <div {...getRootProps()}>

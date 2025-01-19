@@ -21,13 +21,13 @@ import AlertDiaglog from '@/components/AlertDiaglog'
 
 const BlogDetails = () => {
     const [refreshData, setRefreshData] = useState(false)
-    const { data: blogData, loading, error } = useFetch(`/blog/all-blog`, [refreshData])
+    const { data: blogData, loading, error } = useFetch(`/blog/all-blogs`, [refreshData])
 
 console.log(blogData,loading,error)
 
 
     const handleDelete = async(id) => {
-        
+        console.log(id)
         const deleteRes = await delReq(`blog/delete/${id}`)
         
         if(deleteRes.data.success){
@@ -65,12 +65,12 @@ console.log(blogData,loading,error)
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {blogData && blogData?.length > 0 ?
+                            {blogData && blogData?.blogs?.length > 0 ?
 
-                                blogData.map(blog =>
+                                blogData?.blogs?.map(blog =>
                                     <TableRow key={blog._id}>
-                                        <TableCell>{blog.author}</TableCell>
-                                        <TableCell>{blog.category}</TableCell>
+                                        <TableCell>{blog.author?.name}</TableCell>
+                                        <TableCell>{blog.category?.name}</TableCell>
                                         <TableCell>{blog.title}</TableCell>
                                         <TableCell>{blog.slug}</TableCell>
                                         <TableCell>{blog.createdAt}</TableCell>

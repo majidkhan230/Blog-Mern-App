@@ -25,8 +25,7 @@ import { SidebarTrigger } from "./ui/sidebar";
 
 function Topbar() {
   const user = useSelector((state) => state.user);
-
-  // console.log(user.user.user.avatar);
+// console.log(user)
   const dispatch  = useDispatch()
   const navigate = useNavigate()
 
@@ -75,8 +74,8 @@ function Topbar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>
-                <h1>{user.name}</h1>
-                <h1 className="text-xs">{user?.email}</h1>
+                <h1>{user?.user.name}</h1>
+                <h1 className="text-xs">{user?.user.email}</h1>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
@@ -85,7 +84,7 @@ function Topbar() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link>
+                <Link to={'blog/add'}>
                   <GrAdd /> Create Blog
                 </Link>
               </DropdownMenuItem>

@@ -33,7 +33,7 @@ const addBlog = async (req, res, next) => {
 
 const showBlog = async (req, res, next) => {
   try {
-    const Blog = await Blog.findById(req.params.BlogId);
+    const Blog = await blogModel.findById(req.params.BlogId);
     if (!Blog) return next(errorHandler(404, "Blog not found"));
 
     res.status(200).send({
@@ -51,7 +51,7 @@ const updateBlog = async (req, res, next) => {
     const { name, slug } = req.body;
     const { BlogId } = req.params;
 
-    const Blog = await Blog.findByIdAndUpdate(
+    const Blog = await blogModel.findByIdAndUpdate(
       BlogId,
       {
         name,
@@ -76,11 +76,11 @@ const updateBlog = async (req, res, next) => {
 
 const deleteBlog = async (req, res, next) => {
   try {
-    const { BlogId } = req.params;
-    // console.log(BlogId)
-    const Blog = await Blog.findByIdAndDelete(BlogId);
+    const { blogId } = req.params;
+    console.log(blogId)
+    const resp = await blogModel.findByIdAndDelete(blogId);
 
-    if (!Blog) return next(errorHandler(404, "Blog not found"));
+    // if (!resp) return next(errorHandler(404, "Blog not found"));
 
     res.status(200).send({
       success: true,
@@ -95,16 +95,33 @@ const deleteBlog = async (req, res, next) => {
 
 const getAllBlog = async (req, res, next) => {
   try {
-    const categories = await Blog.find({});
-
+    const blogs = await blogModel.find().populate('author', 'name avatar role').populate('category', 'name slug').sort({ createdAt: -1 })
     res.status(200).send({
       success: true,
-      categories,
+      blogs,
     });
   } catch (error) {
     next(errorHandler(500, error.message));
   }
 };
+
+const getBlog = async(req,res,next) =>{
+  try {
+    const {slug}  = req.params
+console.log(slug)
+    const blog = await blogModel.findOne({slug}).populate('author', 'name avatar role').populate('category', 'name slug')
+
+    res.status(200).send({
+      success: true,
+      blog,
+    })
+    
+  } catch (error) {
+    next(errorHandler(500, error.message));
+  }
+}
+
+
 
 const blogController = {
   addBlog,
@@ -112,6 +129,7 @@ const blogController = {
   showBlog,
   deleteBlog,
   getAllBlog,
+  getBlog,  
 };
 
 export default blogController;
