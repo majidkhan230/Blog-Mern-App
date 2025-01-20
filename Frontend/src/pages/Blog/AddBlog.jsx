@@ -68,7 +68,7 @@ function AddBlog() {
 
   useEffect(() => {
     if (blogTitle) {
-      const slug = slugify(blogTitle, { lower: true });
+      const slug =  slugify(blogTitle, { lower: true });
       form.setValue("slug", slug);
     }
   }, [blogTitle]);

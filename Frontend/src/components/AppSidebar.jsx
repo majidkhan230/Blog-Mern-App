@@ -72,7 +72,7 @@ function AppSidebar() {
           loading ? <SkeletonLoader/> 
           :
             categoryData && categoryData?.categories.length > 0 && categoryData?.categories.map((category) => 
-            <Link to={`/blog/${category.slug}`}>
+            <Link key={category._id} to={`/blog/${category?.slug}`}>
               <SidebarMenuButton>
             <GoDot />
             {category.name}
