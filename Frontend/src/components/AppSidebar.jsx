@@ -53,13 +53,13 @@ function AppSidebar() {
               Blogs
             </SidebarMenuButton>
               </Link>
-              <Link to="/asd/">
+              <Link to="get-comments">
             <SidebarMenuButton>
               <FaRegComments/>
               Comments
             </SidebarMenuButton>
               </Link>
-              <Link to="/>/">
+              <Link to="get-users">
             <SidebarMenuButton>
               <LuUsers/>
               Users

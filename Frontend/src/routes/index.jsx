@@ -15,6 +15,7 @@ import OnlyAdminAllowed from "@/pages/OnlyAdminAllowed";
 import Profile from "@/pages/Profile";
 import SignIn from "@/pages/SignIn";
 import SignUp from "@/pages/SignUp";
+import UsersTable from "@/pages/Users/UsersTable";
 
 
 
@@ -98,4 +99,12 @@ export const routes =  [
     path: "*",
     element: <div>Page not found</div>,
   },
+  {
+    path:'get-users',
+    element: <UsersTable/>,
+  },
+  {
+    path:'get-comments',
+    element: <UsersTable/>,
+  }
 ];
