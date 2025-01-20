@@ -72,10 +72,12 @@ console.log(categoryData)
           loading ? <SkeletonLoader/> 
           :
             categoryData && categoryData?.categories.length > 0 && categoryData?.categories.map((category) => 
+            <Link to={`/blog/${category.slug}`}>
               <SidebarMenuButton>
             <GoDot />
-            <Link to={`/blog/${category.slug}`}>{category.name}</Link>
+            {category.name}
             </SidebarMenuButton>
+            </Link>
                         )          
          }
          

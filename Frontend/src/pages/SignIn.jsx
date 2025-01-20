@@ -62,6 +62,11 @@ console.log(state)
     <div className="w-full h-screen  flex justify-center items-center ">
     <Card className="w-[410px]">
   <CardHeader >
+    <Link to={'/'} className="text-center">
+              <h1 className="text-xl font-semibold uppercase tracking-tighter font-serif">
+                <span className="text-4xl text-red-600">B</span>log
+              </h1>
+            </Link>
     <CardTitle className='text-2xl text-center'>Sign In</CardTitle>
     <CardDescription className='text-center'>Please Enter your email and password </CardDescription>
   </CardHeader>
