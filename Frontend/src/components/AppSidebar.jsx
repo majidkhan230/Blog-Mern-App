@@ -22,7 +22,7 @@ import SkeletonLoader from "./SkeletonLoader";
 
 function AppSidebar() {
   const { data: categoryData, loading, error } = useFetch(`/category/all-category`)
-console.log(categoryData)
+// console.log(categoryData)
   
   return (
     <Sidebar>
