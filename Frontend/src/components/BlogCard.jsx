@@ -8,7 +8,6 @@ import usericon from '/assets/images/user-icon.png'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 const BlogCard = ({ props }) => {
-    console.log(props)
     return (
         <Link to={`/blog/${props.category.slug}/${props.slug}`} >
             <Card className="pt-5">

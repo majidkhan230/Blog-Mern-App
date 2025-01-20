@@ -117,7 +117,7 @@ const getBlog = async(req,res,next) =>{
     const {slug,blogId}  = req.params
     // console.log(slug,blogId)
 const query  = blogId ? {_id:blogId} : {slug}
-console.log(query)
+// console.log(query)
     const blog = await blogModel.findOne(query).populate('author', 'name avatar role').populate('category', 'name slug')
 // console.log(blog)
     res.status(200).send({
@@ -136,7 +136,7 @@ console.log(query)
       
       const categoryData = await Category.findOne({ slug: category })
       
-      console.log(categoryData,"hitted")
+      // console.log(categoryData,"hitted")
       if (!categoryData) {
           return next(errorHandler(404, 'Category data not found.'))
       }
@@ -153,14 +153,28 @@ console.log(query)
 
 const getRelatedBlogsByCategory = async (req, res, next) => {
   try {
-    console.log("hitting hgitt")
+    // console.log("hitting hgitt")
       const { category } = req.params
     const categoryId = await Category.find({slug:category})
-      console.log(category)
+      // console.log(category)
       const relatedBlogs = await blogModel.find({ category:categoryId}).populate('category','slug')
       res.status(200).send({
           success:true,
           relatedBlogs
+      })
+  } catch (error) {
+      next(errorHandler(500, error.message))
+  }
+}
+
+export const search = async (req, res, next) => {
+  try {
+      const { q } = req.query
+
+      const blog = await blogModel.find({ title: { $regex: q, $options: 'i' } }).populate('author', 'name avatar role').populate('category', 'name slug').lean().exec()
+      res.status(200).send({
+          success:true,
+          blog,
       })
   } catch (error) {
       next(errorHandler(500, error.message))
@@ -193,7 +207,8 @@ const blogController = {
   getBlog,
   editBLog,
   getRelatedBlog,
-  getRelatedBlogsByCategory
+  getRelatedBlogsByCategory,
+  search
 };
 
 export default blogController;

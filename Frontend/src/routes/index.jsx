@@ -1,3 +1,5 @@
+import SearchResult from "@/components/SearchResult";
+import { RouteSearch } from "@/helpers/routeName.js";
 import Layout from "@/layout/Layout.jsx";
 import AddBlog from "@/pages/Blog/AddBlog";
 import BlogByCategory from "@/pages/Blog/BlogByCategory";
@@ -11,6 +13,9 @@ import Home from "@/pages/Home";
 import Profile from "@/pages/Profile";
 import SignIn from "@/pages/SignIn";
 import SignUp from "@/pages/SignUp";
+
+
+
 
 export const routes = [
   {
@@ -56,6 +61,10 @@ export const routes = [
       {
         path: "/blog/:category",
         element: <BlogByCategory/>,
+      },
+      {
+        path: RouteSearch(),
+        element: <SearchResult/>,
       }
     ],
   },
