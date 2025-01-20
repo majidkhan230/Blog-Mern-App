@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
 import blogRoutes from "./routes/blog.routes.js";
 import commentRoutes from "./routes/comment.routes.js";
+import mongoose from "mongoose";
 
 const app = express();
 dotenv.config();
@@ -42,6 +43,23 @@ app.use((err,req,res,next)=>{
     statusCode: statusCode,
     message: message
 })})
+
+const PORT =process.env.PORT || 8080
+app.listen(PORT,()=>{
+    console.log(`server is sucessfully running on ${PORT}`)
+})
+
+
+mongoose.connect(process.env.MONGODB_URI)
+.then(
+  console.log('db is sucessfully connected')
+)
+.catch((error)=>{
+  console.error({
+    message:"failed to connect to DB",
+    error:error.message
+})
+})
 
 
 
