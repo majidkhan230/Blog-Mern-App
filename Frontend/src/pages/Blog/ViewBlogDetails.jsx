@@ -11,7 +11,7 @@ import RelatedBlog from "@/components/RelatedBlog";
 
 const ViewBlogDetails = () => {
   const { slug, category } = useParams();
-  console.log({slug,category})
+  // console.log({slug,category})
 
   const { data, loading, error } = useFetch(`/blog/get-blog/${slug}`);
   console.log(data, loading, error);

@@ -1,5 +1,5 @@
 import SearchResult from "@/components/SearchResult";
-import { RouteSearch } from "@/helpers/routeName.js";
+import { RouteBlogDetails, RouteSearch } from "@/helpers/routeName.js";
 import Layout from "@/layout/Layout.jsx";
 import AuthRouteProtection from "@/pages/AuthRouteProtection";
 import AddBlog from "@/pages/Blog/AddBlog";
@@ -32,8 +32,9 @@ export const routes =  [
         path: "/blog/:category",
         element: <BlogByCategory/>,
       },
+      
       {
-        path: "/blog/:category/:slug",
+        path: RouteBlogDetails(),
         element: <ViewBlogDetails/>,
       },
       {
