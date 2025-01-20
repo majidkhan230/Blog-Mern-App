@@ -33,6 +33,10 @@ export const routes =  [
         element: <BlogByCategory/>,
       },
       {
+        path: "/blog/:category/:slug",
+        element: <ViewBlogDetails/>,
+      },
+      {
         element: <AuthRouteProtection />,
         children: [
           {
